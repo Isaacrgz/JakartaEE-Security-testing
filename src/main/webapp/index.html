@@ -1,22 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Testing Jakarta Security</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   </head>
   <body>
-    <h3>Issuie detected</h3>
+    <h3>Jakarta EE Security</h3>
     <h4><code>403 Forbidden</code> response after simultaneous ajax requests</h4>
     <h5>OS Tested</h5>
     <ul>
       <li>Windows 11 Pro</li>
       <li>Windows 11 Home Single Language</li>
       <li>Windows Server 2012</li>
+      <li>Debian</li>
     </ul>
     <h5>GlassFiah version tested</h5>
     <ul>
+      <li>7.0.16</li>
       <li>7.0.18</li>
-      <li>7.0.18</li>
+      <li>7.0.19</li>
     </ul>
     <h5>Jakarta EE version</h5>
     <ul>
@@ -26,6 +28,13 @@
     <ul>
       <li>17</li>
     </ul>
+
+    <h3>Fake Login</h3>
+    <button onclick="login()">Log in</button>
+    <button>Log out</button>
+    Status: <code>OFF</code>
+
+
     <p>Request load
       <select>
         <option value="5" selected>5</option>
@@ -56,9 +65,11 @@
       </tbody>
     </table>
     <script>
+      
       let table = document.getElementsByTagName('table tbody')[0];
       let tbody = document.querySelector('table tbody');
       let selects = document.querySelectorAll('select');
+      let statusCode = document.querySelectorAll('code')[1];
       let config = {
         servlet: {
           method: 'GET',
@@ -66,7 +77,7 @@
         },
         service: {
           method: 'GET',
-          url: 'resources/service'
+          url: 'resources/service/ping'
         }
       };
       function startTest() {
@@ -108,6 +119,20 @@
         xhttp.open(method, url);
         xhttp.send();
       }
+
+      function login() {
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+          if (this.readyState === 4) {
+            let status = this.status;
+            console.log(this);
+            statusCode.innerHTML = status;
+          }
+        };
+        xhttp.open('POST', 'servlet');
+        xhttp.send();
+      }
+
     </script>
   </body>
 </html>
