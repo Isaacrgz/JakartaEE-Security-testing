@@ -1,8 +1,10 @@
 package com.iri.jakartasecurity.security;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.security.enterprise.AuthenticationException;
 import jakarta.security.enterprise.AuthenticationStatus;
+import jakarta.security.enterprise.authentication.mechanism.http.AutoApplySession;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
 import jakarta.security.enterprise.authentication.mechanism.http.HttpMessageContext;
 import jakarta.security.enterprise.credential.Credential;
@@ -15,6 +17,8 @@ import jakarta.servlet.http.HttpServletResponse;
  *
  * @author IsaacRgz
  */
+@AutoApplySession
+@ApplicationScoped
 public class CustomAuthentication implements HttpAuthenticationMechanism {
 
   @Inject

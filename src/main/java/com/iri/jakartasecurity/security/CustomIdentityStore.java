@@ -1,5 +1,6 @@
 package com.iri.jakartasecurity.security;
 
+import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.security.enterprise.credential.CallerOnlyCredential;
 import jakarta.security.enterprise.credential.Credential;
 import jakarta.security.enterprise.credential.UsernamePasswordCredential;
@@ -14,6 +15,7 @@ import java.util.Set;
  *
  * @author IsaacRgz
  */
+@ApplicationScoped
 public class CustomIdentityStore implements IdentityStore {
 
   @Override
@@ -21,11 +23,11 @@ public class CustomIdentityStore implements IdentityStore {
     if (credential instanceof UsernamePasswordCredential) {
       String username = ((UsernamePasswordCredential) credential).getCaller();
       String password = ((UsernamePasswordCredential) credential).getPasswordAsString();
-      return new CredentialValidationResult(username, new HashSet<>(Arrays.asList("user", "admin")));
+      return new CredentialValidationResult(username, new HashSet<>(Arrays.asList("user")));
     }
     if (credential instanceof CallerOnlyCredential) {
       String username = ((CallerOnlyCredential) credential).getCaller();
-      return new CredentialValidationResult(username, new HashSet<>(Arrays.asList("user", "admin")));
+      return new CredentialValidationResult(username, new HashSet<>(Arrays.asList("user")));
     }
     return NOT_VALIDATED_RESULT;
   }
